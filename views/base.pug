@@ -1,0 +1,28 @@
+doctype html 
+html 
+    head 
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        //- meta(http-equiv='refresh' content='600')
+        link(rel='stylesheet', href='/main.css')
+        link(href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;1,300&display=swap" rel="stylesheet")
+      
+        //- link(rel='icon' href='/icons/tool.ico')
+        title appAuth
+
+    body 
+        //HEADER
+        nav 
+            a(id='brand-name' href='/') AppAuth
+                //- span(id='brand-name') Fitofit
+            a(class='option' href='/secret')
+                span(class='secret__page--span') Secret Page
+                //- span(id='option') Statistics
+            form(class = 'login')
+                input(type="text",placeholder='user',class='login__input login__input--user')
+                input(type="text",placeholder='password',class='login__input login__input--password')
+                button(class='login__btn') >
+        block content
+
+    
+        script(src='/js/bundle.js')
