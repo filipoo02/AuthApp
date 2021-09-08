@@ -25,23 +25,6 @@ const getAllUsers = async () => {
   }
 };
 
-const catchAsyncQuery = (fn) => {
-  return (id) => {
-    fn(id).catch((error) => {
-      throw error;
-    });
-  };
-};
-
-// const getUser = catchAsyncQuery(async (id) => {
-//   const pool = await sql.connect(dbconfig);
-//   const result = await pool
-//     .request()
-//     .query(`SELECT * FROM Users WHERE id = ${id}`);
-
-//   return result.recordset;
-// });
-// console.log(getUser);
 const getUser = async (id) => {
   console.log(id);
   try {

@@ -11,37 +11,45 @@ const signToken = (id) => {
   });
 };
 
+const createAndSendToken = (user, statusCode, res) => {
+  const cookieOption = {
+    expiresIn: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+
+  if (process.env.NODE_ENV === "prod") cookieOption.secure = true;
+
+  const token = signToken(user.id);
+
+  res.cookie("jwt", token, cookieOption);
+
+  res.status(statusCode).json({
+    status: "success",
+    data: {
+      token,
+      user,
+    },
+  });
+};
+
 const loginUser = catchAsync(async (req, res, next) => {
   const data = req.body;
   const result = await server.loginUser(data);
 
-  const token = signToken(result[0].id);
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      token,
-      user: result,
-    },
-  });
+  createAndSendToken(result[0], 200, res);
 });
 
 const createUser = catchAsync(async (req, res, next) => {
   const data = req.body;
   const result = await server.createUser(data);
 
-  const token = signToken(result[0].id);
-
-  res.status(201).json({
-    status: "success",
-    token,
-    result,
-  });
+  createAndSendToken(result[0], 201, res);
 });
 
 const protect = catchAsync(async (req, res, next) => {
   let token;
-  // powinno byc cookie!
   const auth = req.headers.authorization;
 
   if (auth && auth.startsWith("Bearer")) {
